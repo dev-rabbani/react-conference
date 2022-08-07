@@ -6,7 +6,11 @@
   <a href="https://graphql.org/" target="_blank"><img src="https://img.shields.io/badge/GraphQL-v16.5.0-ff69b4.svg?logo=GraphQL"></a>
 </p>
 
-## Project boostrap built with:
+## Live Demo Link:
+
+ https://react-conference-app-graphql-next.netlify.app/
+
+## Project built with:
 
 - React.js
 - Next.js
