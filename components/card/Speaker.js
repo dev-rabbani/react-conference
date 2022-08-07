@@ -2,9 +2,9 @@
 
 const Speaker = ({ speaker }) => {
     return (
-        <div className='bg-white rounded-[8px] p-[12px] lg:p-[16px_30px_16px_16px] flex  gap-[15px] lg:gap-[40px] lg:items-center'>
+        <div className='bg-white rounded-[8px] p-[12px] lg:p-[16px_30px_16px_16px] flex items-start  gap-[15px] lg:gap-[40px]'>
             {speaker?.image?.url && (
-                <div className='flex-[0_0_88px] lg:flex-[0_0_140px] rounded-[8px] overflow-hidden align-baseline'>
+                <div className='flex-[0_0_88px] lg:flex-[0_0_140px] rounded-[8px] overflow-hidden'>
                     <img src={speaker?.image?.url} alt={`${speaker?.name} avatar`} />
                 </div>
             )}
