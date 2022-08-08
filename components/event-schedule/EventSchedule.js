@@ -9,9 +9,8 @@ import { getDayName } from '../../lib/getDayName';
 const EventSchedule = ({ conferences }) => {
 
     const eventData = [...conferences];
-    const eventTableData = eventData.map(({ id, name, startDate }) => {
-        return { id, name, startDate, dayName: getDayName(startDate) };
-
+    const eventTableData = eventData.map(({ id, schedules }) => {
+        return { id, schedules };
     });
 
     return (

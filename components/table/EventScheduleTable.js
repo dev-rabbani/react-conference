@@ -3,17 +3,61 @@
 import React from 'react';
 
 // Internal Imports
-import { dayWiseData } from '../../lib/dayWiseData';
+import { dayWiseData, dayWiseIntervals } from '../../lib/dayWiseData';
+import { getDayName } from '../../lib/getDayName';
 import EventInfo from '../card/EventInfo';
 
 const EventScheduleTable = ({ eventTableData }) => {
 
-    const tueDayData = dayWiseData(eventTableData, 'tue')
-    const wedDayData = dayWiseData(eventTableData, 'wed')
-    const thuDayData = dayWiseData(eventTableData, 'thu')
-    const friDayData = dayWiseData(eventTableData, 'fri')
-    const satDayData = dayWiseData(eventTableData, 'sat')
-    const sunDayData = dayWiseData(eventTableData, 'sun')
+    // TODO: lib er modde jabe
+    const dataWithIntervalsWithTitle = (arr) => {
+        const result = arr.map((singleEvent) => {
+            const { id, schedules } = singleEvent
+            const filterIntervalData = schedules.filter((schedule) => {
+                return schedule.intervals.filter(Boolean)
+            })
+            const filterInterValDataWithTitle = filterIntervalData.map((item) => {
+                const { day, intervals } = item;
+
+                if (intervals.length) {
+                    const filterIntervals = intervals.filter((v) => v.title)
+                    return {
+                        id,
+                        day,
+                        filterIntervals
+                    }
+                }
+            })
+            const data = filterInterValDataWithTitle.filter((item) => item?.filterIntervals?.length)
+            return data
+        })
+
+        return result
+    }
+
+    const mainDataWithTitle = dataWithIntervalsWithTitle(eventTableData);
+
+    const flatData = mainDataWithTitle.flat(Infinity)
+
+
+    const cloneMainData = [...flatData];
+    const modifyMainData = cloneMainData.map(({ id, day, filterIntervals }) => {
+        return { id, filterIntervals, day, dayName: getDayName(day) };
+    });
+
+    const tueDayData = dayWiseData(modifyMainData, 'tue')
+    const wedDayData = dayWiseData(modifyMainData, 'wed')
+    const thuDayData = dayWiseData(modifyMainData, 'thu')
+    const friDayData = dayWiseData(modifyMainData, 'fri')
+    const satDayData = dayWiseData(modifyMainData, 'sat')
+    const sunDayData = dayWiseData(modifyMainData, 'sun')
+
+    console.log({ tueDayData });
+    console.log({ wedDayData });
+    console.log({ thuDayData });
+    console.log({ friDayData });
+    console.log({ satDayData });
+    console.log({ sunDayData });
 
     return (
         <>
@@ -45,58 +89,58 @@ const EventScheduleTable = ({ eventTableData }) => {
                         <tbody>
                             <tr>
                                 <td className="item">
-                                    {tueDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {tueDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {tueDayData && tueDayData?.length && (
+                                        <>
+                                            {tueDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="item">
-                                    {wedDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {wedDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {wedDayData && wedDayData?.length && (
+                                        <>
+                                            {wedDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="item">
-                                    {thuDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {thuDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {thuDayData && thuDayData?.length && (
+                                        <>
+                                            {thuDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="item">
-                                    {friDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {friDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {friDayData && friDayData?.length && (
+                                        <>
+                                            {friDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="item">
-                                    {satDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {satDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {satDayData && satDayData?.length && (
+                                        <>
+                                            {satDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="item">
-                                    {sunDayData && <div className='grid gap-2 grid-cols-1'>
-                                        {sunDayData.map((eventInfo) => (
-                                            <div className="item" key={eventInfo?.id}>
-                                                <EventInfo eventInfo={eventInfo} />
-                                            </div>
-                                        ))}
-                                    </div>}
+                                    {sunDayData && sunDayData?.length && (
+                                        <>
+                                            {sunDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
                                 </td>
                             </tr>
                         </tbody>

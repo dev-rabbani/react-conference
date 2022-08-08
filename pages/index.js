@@ -9,6 +9,8 @@ import HeroSection from '../components/hero/HeroSection'
 
 export default function Home({ data }) {
     const { conferences } = data
+
+    // console.log({ conferences })
     return (
         <div>
             <Head>
@@ -30,17 +32,21 @@ export default function Home({ data }) {
 // get data
 export async function getStaticProps() {
     const QUERY = gql`
-    query {
+    query{
         conferences {
             id
             name
-            year
             startDate
-            endDate
-            slogan
+            schedules {
+                day
+                intervals {
+                    begin
+                    end
+                    title
+                    }
+                }
+            }
         }
-    }
-
   `
     const { data } = await client.query({ query: QUERY })
     return {
