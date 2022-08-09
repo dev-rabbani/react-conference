@@ -215,7 +215,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                             <td className='item' key={index}>
                                                 {/* {v.begin} */}
                                                 {/* <Info data={testFunc("hellow Dunia")} /> */}
-                                                <Info data={timeWiseData(wedDayData, '10:00')} />
+                                                <Info data={timeWiseData(dayNameWiseDataCollection[index], v.begin)} />
                                             </td>
                                         ))}
                                     </>
