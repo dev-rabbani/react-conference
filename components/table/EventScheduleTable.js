@@ -6,6 +6,7 @@ import React from 'react';
 import { dayWiseData, dayWiseIntervals } from '../../lib/dayWiseData';
 import { getDayName } from '../../lib/getDayName';
 import EventInfo from '../card/EventInfo';
+import Info from '../card/Info';
 
 const EventScheduleTable = ({ eventTableData }) => {
 
@@ -53,16 +54,15 @@ const EventScheduleTable = ({ eventTableData }) => {
     const sunDayData = dayWiseData(modifyMainData, 'sun')
     const monDayData = dayWiseData(modifyMainData, 'mon')
 
-    const dayNameWiseData = [tueDayData, wedDayData, thuDayData, friDayData, satDayData, sunDayData]
-
-    console.log({ monDayData });
+    // console.log({ monDayData });
 
     // console.log({ tueDayData });
-    console.log({ wedDayData });
+    // console.log({ wedDayData });
     // console.log({ thuDayData });
     // console.log({ friDayData });
     // console.log({ satDayData });
     // console.log({ sunDayData });
+    // console.log({ monDayData });
 
     // const cloneWedData = [...wedDayData];
     // const wedIntervals = cloneWedData.map(({ filterIntervals }) => {
@@ -122,22 +122,64 @@ const EventScheduleTable = ({ eventTableData }) => {
     })
 
     const beginTimeNum = beginTimes.map((v1) => {
-        return Number(v1.split(':')[0])
+        const id = Number(v1.split(':')[0]);
+        return { id, begin: v1 }
     })
 
-    const removeDuplicate = [...new Set(beginTimeNum)].sort((a, b) => a - b);
+    const beginIds = beginTimeNum.map(o => o.id)
+    const filteredTimesWithSort = beginTimeNum.filter(({ id }, index) => !beginIds.includes(id, index + 1)).sort((a, b) => a.id - b.id)
 
-    // const minTime = removeDuplicate[0];
-    // const maxTime = removeDuplicate[removeDuplicate.length - 1];
-    // const minTime = Math.min(...removeDuplicate);
-    // const maxTime = Math.max(...removeDuplicate);
+    console.log(filteredTimesWithSort);
+
+    // const beginTimeDataCollection = [...new Set(beginTimes)];
+    // console.log(beginTimeNum);
+
+    // const minTime = beginTimeDataCollection[0];
+    // const maxTime = beginTimeDataCollection[beginTimeDataCollection.length - 1];
+    // const minTime = Math.min(...beginTimeDataCollection);
+    // const maxTime = Math.max(...beginTimeDataCollection);
     // console.log(minTime)
     // console.log(maxTime)
 
-    // console.log(removeDuplicate.sort((a, b) => a - b));
+    // console.log(beginTimeDataCollection.sort((a, b) => a - b));
     // console.log(minTime);
     // console.log(maxTime);
-    // console.log(removeDuplicate)
+    // console.log(beginTimeDataCollection)
+
+    const tableHeadLabels = [
+        // { id: 1, label: 'Time', value: 'time' },
+        { id: 2, label: 'Tue', value: 'tue' },
+        { id: 3, label: 'Wed', value: 'wed' },
+        { id: 4, label: 'Thu', value: 'thu' },
+        { id: 5, label: 'Fri', value: 'fri' },
+        { id: 6, label: 'Sat', value: 'sat' },
+        { id: 7, label: 'Sun', value: 'sun' },
+        { id: 8, label: 'Mon', value: 'mon' },
+    ];
+    const dayNameWiseDataCollection = [tueDayData, wedDayData, thuDayData, friDayData, satDayData, sunDayData, monDayData];
+    const dayNames = ['tue', 'wed', 'thu', 'fri', 'sat', 'sun', 'mon'];
+
+
+    // console.log(wedDayData)
+
+    const timeWiseData = (arr, time) => {
+        const cloneArr = [...arr];
+        return cloneArr.map(({ id, day, dayName, filterIntervals }) => {
+            const matchedDataFilter = filterIntervals.filter((item) => item.begin == time)
+            const matchedData = (matchedDataFilter && matchedDataFilter.length > 0) && matchedDataFilter;
+            if (matchedData) {
+                return { id, day, dayName, matchedData };
+            }
+            return null
+        }).filter(Boolean)
+    }
+    // const testData = timeWiseData(wedDayData, '10:00').filter(Boolean)
+    // console.log(testData.filter(Boolean));
+    // const data10am = wedDayData
+
+
+
+
 
     return (
         <>
@@ -156,32 +198,34 @@ const EventScheduleTable = ({ eventTableData }) => {
                 <div className="re-table-responsive">
                     <table className="table table-fixed">
                         <thead>
-                            <tr>
-                                <th scope="col" className="item">
-                                    Tue
-                                </th>
-                                <th scope="col" className="item">
-                                    Wed
-                                </th>
-                                <th scope="col" className="item">
-                                    Thu
-                                </th>
-                                <th scope="col" className="item">
-                                    Fri
-                                </th>
-                                <th scope="col" className="item">
-                                    Sat
-                                </th>
-                                <th scope="col" className="item">
-                                    Sun
-                                </th>
-                                <th scope="col" className="item">
-                                    Mon
-                                </th>
-                            </tr>
+                            {tableHeadLabels && tableHeadLabels.length > 0 && <tr>
+                                {tableHeadLabels.map((item) => (
+                                    <td scope='col' className='item' key={item?.id}>
+                                        {item?.label}
+                                    </td>
+                                ))}
+                            </tr>}
+
                         </thead>
                         <tbody>
-                            <tr>
+                            {filteredTimesWithSort.map((v, i) => <tr key={i}>
+                                {dayNames && (
+                                    <>
+                                        {dayNames.map((item, index) => (
+                                            <td className='item' key={index}>
+                                                {/* {v.begin} */}
+                                                {/* <Info data={testFunc("hellow Dunia")} /> */}
+                                                <Info data={timeWiseData(wedDayData, '10:00')} />
+                                            </td>
+                                        ))}
+                                    </>
+                                )}
+                            </tr>)}
+
+                            {/* <tr>
+                                <td className="item">
+
+                                </td>
                                 <td className="item">
                                     {tueDayData && tueDayData?.length > 0 && (
                                         <>
@@ -245,7 +289,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                         </>
                                     )}
                                 </td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
