@@ -51,16 +51,107 @@ const EventScheduleTable = ({ eventTableData }) => {
     const friDayData = dayWiseData(modifyMainData, 'fri')
     const satDayData = dayWiseData(modifyMainData, 'sat')
     const sunDayData = dayWiseData(modifyMainData, 'sun')
+    const monDayData = dayWiseData(modifyMainData, 'mon')
 
-    console.log({ tueDayData });
+    const dayNameWiseData = [tueDayData, wedDayData, thuDayData, friDayData, satDayData, sunDayData]
+
+    console.log({ monDayData });
+
+    // console.log({ tueDayData });
     console.log({ wedDayData });
-    console.log({ thuDayData });
-    console.log({ friDayData });
-    console.log({ satDayData });
-    console.log({ sunDayData });
+    // console.log({ thuDayData });
+    // console.log({ friDayData });
+    // console.log({ satDayData });
+    // console.log({ sunDayData });
+
+    // const cloneWedData = [...wedDayData];
+    // const wedIntervals = cloneWedData.map(({ filterIntervals }) => {
+
+    //     const beginEnd = filterIntervals.map(({ begin, end }) => {
+    //         return { begin, end }
+    //     })
+
+    //     return { beginEnd };
+    // });
+
+    // const flatWedIntervals = wedIntervals.flat(Infinity);
+    // const flatWedIntervals = wedIntervals.flat(Infinity);
+
+    // console.log(wedIntervals)
+    // console.log(flatWedIntervals)
+
+    // const wedBeginTime = [];
+
+    // flatWedIntervals.map((item, ind) => {
+    //     item.beginEnd.map((v, i) => {
+    //         wedBeginTime.push(v.begin)
+    //     })
+    // })
+
+    // const newArr = wedBeginTime.map((item) => {
+    //     return Number(item.split(':')[0])
+    // })
+
+    // console.log(newArr);
+
+    // const max = Math.max(...newArr);
+    // const min = Math.min(...newArr);
+    // console.log(max)
+    // console.log(min)
+    // console.log(modifyMainData);
+
+    const schIntervals = modifyMainData.map(({ filterIntervals }) => {
+
+        const beginEnd = filterIntervals.map(({ begin, end }) => {
+            return { begin, end }
+        })
+
+        return { beginEnd };
+    });
+
+    // const flatWedIntervals = wedIntervals.flat(Infinity);
+    const flatSchIntervals = schIntervals.flat(Infinity);
+    // console.log(flatSchIntervals);
+
+    const beginTimes = [];
+
+    flatSchIntervals.map((v1) => {
+        v1.beginEnd.map((v2) => {
+            beginTimes.push(v2.begin)
+        })
+    })
+
+    const beginTimeNum = beginTimes.map((v1) => {
+        return Number(v1.split(':')[0])
+    })
+
+    const removeDuplicate = [...new Set(beginTimeNum)].sort((a, b) => a - b);
+
+    // const minTime = removeDuplicate[0];
+    // const maxTime = removeDuplicate[removeDuplicate.length - 1];
+    // const minTime = Math.min(...removeDuplicate);
+    // const maxTime = Math.max(...removeDuplicate);
+    // console.log(minTime)
+    // console.log(maxTime)
+
+    // console.log(removeDuplicate.sort((a, b) => a - b));
+    // console.log(minTime);
+    // console.log(maxTime);
+    // console.log(removeDuplicate)
 
     return (
         <>
+            {/* {flatWedIntervals.map((item, ind) => (
+                <div key={ind}>
+                    {item.beginEnd.map((v, i) => (
+                        <div key={i}>
+                            <p>Begin: {v.begin}</p>
+                            <p>End: {v.end}</p>
+                        </div>
+                    ))}
+                </div>
+            ))} */}
+
             <div className="re-table-wrapper">
                 <div className="re-table-responsive">
                     <table className="table table-fixed">
@@ -84,12 +175,15 @@ const EventScheduleTable = ({ eventTableData }) => {
                                 <th scope="col" className="item">
                                     Sun
                                 </th>
+                                <th scope="col" className="item">
+                                    Mon
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td className="item">
-                                    {tueDayData && tueDayData?.length && (
+                                    {tueDayData && tueDayData?.length > 0 && (
                                         <>
                                             {tueDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
@@ -98,7 +192,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                     )}
                                 </td>
                                 <td className="item">
-                                    {wedDayData && wedDayData?.length && (
+                                    {wedDayData && wedDayData?.length > 0 && (
                                         <>
                                             {wedDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
@@ -107,7 +201,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                     )}
                                 </td>
                                 <td className="item">
-                                    {thuDayData && thuDayData?.length && (
+                                    {thuDayData && thuDayData?.length > 0 && (
                                         <>
                                             {thuDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
@@ -116,7 +210,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                     )}
                                 </td>
                                 <td className="item">
-                                    {friDayData && friDayData?.length && (
+                                    {friDayData && friDayData?.length > 0 && (
                                         <>
                                             {friDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
@@ -125,7 +219,7 @@ const EventScheduleTable = ({ eventTableData }) => {
                                     )}
                                 </td>
                                 <td className="item">
-                                    {satDayData && satDayData?.length && (
+                                    {satDayData && satDayData?.length > 0 && (
                                         <>
                                             {satDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
@@ -134,9 +228,18 @@ const EventScheduleTable = ({ eventTableData }) => {
                                     )}
                                 </td>
                                 <td className="item">
-                                    {sunDayData && sunDayData?.length && (
+                                    {sunDayData && sunDayData?.length > 0 && (
                                         <>
                                             {sunDayData.map((eventInfo, index) => (
+                                                <EventInfo eventInfo={eventInfo} key={index} />
+                                            ))}
+                                        </>
+                                    )}
+                                </td>
+                                <td className="item">
+                                    {monDayData && monDayData?.length > 0 && (
+                                        <>
+                                            {monDayData.map((eventInfo, index) => (
                                                 <EventInfo eventInfo={eventInfo} key={index} />
                                             ))}
                                         </>

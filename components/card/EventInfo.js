@@ -6,7 +6,6 @@ const EventInfo = ({ eventInfo }) => {
     const keys = Object.keys(eventInfo);
 
     if (keys.length) {
-
         return (
 
             <>
@@ -39,7 +38,7 @@ const EventInfo = ({ eventInfo }) => {
                     <div className='grid gap-2 grid-cols-1'>
                         {eventInfo.filterIntervals.map((intervalsData, index) => (
                             <Link href={`conferences/${eventInfo?.id}`} key={index}>
-                                <a className="info-card text-left p-[24px_20px] bg-[#FFFCF6] rounded-[8px] border-[1px] border-solid border-[#FCB12A] transition-all duration-500 translate-y-[0] hover:translate-y-[-3px]">
+                                <a className="info-card text-left p-[16px_8px] bg-[#FFFCF6] rounded-[8px] border-[1px] border-solid border-[#FCB12A] transition-all duration-500 translate-y-[0] hover:translate-y-[-3px]">
                                     <p className='info-card-title h4 text-[#725114] leading-[1.1875em]'>{intervalsData?.title}</p>
                                     <p className='text-[12px] leading-[1.25em] text-[#8B6F3B] mt-[8px]'>{intervalsData?.begin} -{intervalsData?.end}</p>
                                 </a>
