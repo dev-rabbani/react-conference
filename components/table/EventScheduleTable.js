@@ -147,7 +147,7 @@ const EventScheduleTable = ({ eventTableData }) => {
     // console.log(beginTimeDataCollection)
 
     const tableHeadLabels = [
-        // { id: 1, label: 'Time', value: 'time' },
+        { id: 1, label: 'Time', value: 'time' },
         { id: 2, label: 'Tue', value: 'tue' },
         { id: 3, label: 'Wed', value: 'wed' },
         { id: 4, label: 'Thu', value: 'thu' },
@@ -211,13 +211,30 @@ const EventScheduleTable = ({ eventTableData }) => {
                             {filteredTimesWithSort.map((v, i) => <tr key={i}>
                                 {dayNames && (
                                     <>
-                                        {dayNames.map((item, index) => (
-                                            <td className='item' key={index}>
-                                                {/* {v.begin} */}
-                                                {/* <Info data={testFunc("hellow Dunia")} /> */}
-                                                <Info data={timeWiseData(dayNameWiseDataCollection[index], v.begin)} />
-                                            </td>
-                                        ))}
+                                        <td className='item'>
+                                            {v.begin}
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(tueDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(wedDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(thuDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(friDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(satDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(sunDayData, v.begin)} />
+                                        </td>
+                                        <td className='item'>
+                                            <Info data={timeWiseData(monDayData, v.begin)} />
+                                        </td>
                                     </>
                                 )}
                             </tr>)}
