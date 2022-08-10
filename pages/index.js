@@ -8,11 +8,11 @@ import EventSchedule from '../components/event-schedule/EventSchedule'
 import HeroSection from '../components/hero/HeroSection'
 
 export default function Home({ data }) {
+
     const { conferences } = data
 
-    // console.log({ conferences })
     return (
-        <div>
+        <>
             <Head>
                 <title>React Conference - Home</title>
                 <meta name="description" content="React Conference" />
@@ -25,7 +25,7 @@ export default function Home({ data }) {
                 <EventSchedule conferences={conferences} />
             )}
 
-        </div>
+        </>
     )
 }
 
@@ -35,19 +35,18 @@ export async function getStaticProps() {
     query{
         conferences {
             id
-            name
-            startDate
             schedules {
                 day
                 intervals {
                     begin
                     end
                     title
-                    }
                 }
             }
         }
-  `
+    }
+`
+    // get data
     const { data } = await client.query({ query: QUERY })
     return {
         props: {

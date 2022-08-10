@@ -9,8 +9,8 @@ const Sponsors = ({ sponsors }) => {
         <>
             {sponsors && (
                 <div className='grid grid-cols-1 gap-[24px]'>
-                    {sponsors.map((sponsor) => (
-                        <div key={sponsor?.name}>
+                    {sponsors.map((sponsor, index) => (
+                        <div key={index}>
                             <Sponsor sponsor={sponsor} />
                         </div>
                     ))}

@@ -12,7 +12,7 @@ import ConferenceDetails from '../../components/conference/ConferenceDetails';
 export default function Conference({ data }) {
     const { conference } = data;
     return (
-        <div>
+        <>
             <Head>
                 <title>React Conference - Conference Info</title>
                 <meta name="description" content="React Conference" />
@@ -27,20 +27,19 @@ export default function Conference({ data }) {
                 <ConferenceDetails conference={conference} />
             )}
 
-        </div>
+        </>
     )
 }
 
 // get path
 export async function getStaticPaths() {
     const QUERY = gql`
-    query {
-        conferences {
-            id
-            name 
+        query {
+            conferences {
+                id
+            }
         }
-    }
-  `
+    `
     const { data } = await client.query({ query: QUERY });
     const { conferences } = data;
     const paths = conferences.map((conference) => (
@@ -55,78 +54,70 @@ export async function getStaticPaths() {
 
 // get data
 export async function getStaticProps(context) {
+
+    // get id by params
     const { id } = context?.params;
+
+    // QUERY
     const QUERY = gql`
-            query  ($id: ID!) {
-                conference (id: $id) {
-                    id
-                    name
-                    year
-                    startDate
-                    endDate
-                    slogan
-                    organizers {
+        query  ($id: ID!) {
+            conference (id: $id) {
+                name
+                slogan
+                organizers {
                     name
                     about
+                    image {
+                        url
                     }
-                    speakers {
+                }
+                speakers {
                     name
                     about
-                    aboutShort
                     company
                     image {
                         url
-                        title
                     }
-                    }
-                    locations {
+                }
+                locations {
                     name
                     about
                     image {
                         url
-                        title
-                        style {
-                        backgroundSize
-                        }
                     }
-                    }
-                    schedules {
+                }
+                schedules {
                     day
-                    location {
-                        name
-                        about
-                        image {
-                        url
-                        title
-                        }
-                        city
-                        address
-                    }
                     description
+                    location {
+                        image {
+                            url
+                        }
+                    }
                     intervals {
                         begin
                         end
-                        title
                         sessions {
-                        title
+                            title
                         }
                     }
-                    }
-                    sponsors {
+                }
+                sponsors {
                     name
                     about
-                    aboutShort
                     company
                     image {
                         url
-                        title
-                    }
                     }
                 }
             }
-      `
+        }
+    `
 
-    const { data } = await client.query({ query: QUERY, variables: { id } })
+    // get data by id    
+    const { data } = await client.query({ query: QUERY, variables: { id } });
+
+
     return {
         props: {
             data

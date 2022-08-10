@@ -9,8 +9,8 @@ const Speakers = ({ speakers }) => {
         <>
             {speakers && (
                 <div className='grid grid-cols-1 gap-[24px]'>
-                    {speakers.map((speaker) => (
-                        <div key={speaker?.name}>
+                    {speakers.map((speaker, index) => (
+                        <div key={index}>
                             <Speaker speaker={speaker} />
                         </div>
                     ))}
