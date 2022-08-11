@@ -9,8 +9,8 @@ const Locations = ({ locations }) => {
         <>
             {locations && (
                 <div className='grid grid-cols-1 gap-[24px]'>
-                    {locations.map((location) => (
-                        <div key={location?.name}>
+                    {locations.map((location, index) => (
+                        <div key={index}>
                             <Location location={location} />
                         </div>
                     ))}

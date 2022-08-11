@@ -13,7 +13,7 @@ import Schedules from './Schedules';
 
 const ConferenceDetails = ({ conference }) => {
 
-    const { organizers, speakers, locations, schedules, sponsors } = conference;
+    const { name, slogan, organizers, speakers, locations, schedules, sponsors } = conference;
 
     useEffect(() => {
 
@@ -57,8 +57,8 @@ const ConferenceDetails = ({ conference }) => {
                 <div className="relative -mx-4">
                     <div className="w-full px-4">
                         <SectionHeading
-                            title={conference?.name}
-                            description={conference?.slogan}
+                            title={name}
+                            description={slogan}
                         />
                     </div>
                 </div>

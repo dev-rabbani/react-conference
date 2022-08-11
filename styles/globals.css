@@ -42,21 +42,7 @@
   }
 }
 
-/*==============================
-//  components
-==============================*/
-
-@layer components {}
-
-/*==============================
-//  utilities
-==============================*/
-
-@layer utilities {}
-
-
 /*custom css*/
-
 .container {
   padding-left: 1rem;
   padding-right: 1rem;

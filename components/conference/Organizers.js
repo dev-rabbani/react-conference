@@ -9,8 +9,8 @@ const Organizers = ({ organizers }) => {
         <>
             {organizers && (
                 <div className='grid grid-cols-1 gap-[24px]'>
-                    {organizers.map((organizer) => (
-                        <div key={organizer?.name}>
+                    {organizers.map((organizer, index) => (
+                        <div key={index}>
                             <Organizer organizer={organizer} />
                         </div>
                     ))}
